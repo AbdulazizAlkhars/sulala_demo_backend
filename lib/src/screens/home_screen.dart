@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
+import 'package:sulala_demo_backend/src/widgets/build_chicken_form.dart';
+import 'package:sulala_demo_backend/src/widgets/build_sheep_form.dart';
 import '../models/chicken.dart';
 import '../models/farm_animals.dart';
 import '../models/mammals.dart';
@@ -20,16 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseService _firebaseService = FirebaseService();
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _breedController = TextEditingController();
-  final _imageController = TextEditingController();
-  final _sexController = TextEditingController();
-  final _tagsController = TextEditingController();
-  final _notesController = TextEditingController();
-  final _customFieldsController = TextEditingController();
-  final _dateOfMateController = TextEditingController();
-  final _dateOfDeadOrSellController = TextEditingController();
-  final _dateOfWeaningController = TextEditingController();
-  final _dobController = TextEditingController();
   final _animalTypeOptions = ['Mammals', 'Oviparous'];
   final _animalKindOptions = ['Sheep', 'Chicken'];
   String? _selectedAnimalType;
@@ -54,16 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _nameController.dispose();
-    _breedController.dispose();
-    _imageController.dispose();
-    _sexController.dispose();
-    _tagsController.dispose();
-    _notesController.dispose();
-    _customFieldsController.dispose();
-    _dateOfMateController.dispose();
-    _dateOfDeadOrSellController.dispose();
-    _dateOfWeaningController.dispose();
-    _dobController.dispose();
     super.dispose();
   }
 
@@ -161,9 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 const SizedBox(height: 16),
-                if (_selectedAnimalKind == 'Sheep') ..._buildSheepFormFields(),
-                if (_selectedAnimalKind == 'Chicken')
-                  ..._buildChickenFormFields(),
+                if (_selectedAnimalKind == 'Sheep') BuildSheepFormFields(),
+                if (_selectedAnimalKind == 'Chicken') BuildChickenFormFields(),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   child: const Text('Submit Animal'),
@@ -175,19 +155,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (_selectedAnimalType == 'Mammals') {
                         Sheep sheep = Sheep(
                           name: _nameController.text,
-                          breed: _breedController.text,
-                          image: _imageController.text,
-                          sex: _sexController.text,
+                          breed: '',
+                          image: '',
+                          sex: '',
                           tags: Tags(),
-                          notes: _notesController.text,
+                          notes: '',
                           customFields: {},
-                          dateOfMate:
-                              DateTime.parse(_dateOfMateController.text),
-                          dateOfDeadOrSell:
-                              DateTime.parse(_dateOfDeadOrSellController.text),
-                          dateOfWeaning:
-                              DateTime.parse(_dateOfWeaningController.text),
-                          dob: DateTime.parse(_dobController.text),
+                          dateOfMate: DateTime.now(),
+                          dateOfDeadOrSell: DateTime.now(),
+                          dateOfWeaning: DateTime.now(),
+                          dob: DateTime.now(),
                         );
                         animal = FarmAnimals(
                           name: _nameController.text,
@@ -198,19 +175,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       } else {
                         Chicken chicken = Chicken(
                           name: _nameController.text,
-                          breed: _breedController.text,
-                          image: _imageController.text,
-                          sex: _sexController.text,
+                          breed: '',
+                          image: '',
+                          sex: '',
                           tags: Tags(),
-                          notes: _notesController.text,
+                          notes: '',
                           customFields: {},
-                          dateOfMate:
-                              DateTime.parse(_dateOfMateController.text),
-                          dateOfDeadOrSell:
-                              DateTime.parse(_dateOfDeadOrSellController.text),
-                          dateOfWeaning:
-                              DateTime.parse(_dateOfWeaningController.text),
-                          dob: DateTime.parse(_dobController.text),
+                          dateOfMate: DateTime.now(),
+                          dateOfDeadOrSell: DateTime.now(),
+                          dateOfWeaning: DateTime.now(),
+                          dob: DateTime.now(),
                         );
                         animal = FarmAnimals(
                           name: _nameController.text,
@@ -249,318 +223,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  List<Widget> _buildSheepFormFields() {
-    return [
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _breedController,
-        decoration: const InputDecoration(
-          labelText: 'Sheep Breed',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the sheep breed';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _imageController,
-        decoration: const InputDecoration(
-          labelText: 'Sheep Image',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the sheep image URL';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _sexController,
-        decoration: const InputDecoration(
-          labelText: 'Sheep Sex',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the sheep sex';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _tagsController,
-        decoration: const InputDecoration(
-          labelText: 'Sheep Tags',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the sheep tags';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _notesController,
-        decoration: const InputDecoration(
-          labelText: 'Sheep Notes',
-          border: OutlineInputBorder(),
-        ),
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _customFieldsController,
-        decoration: const InputDecoration(
-          labelText: 'Sheep Custom Fields',
-          border: OutlineInputBorder(),
-        ),
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dateOfMateController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Mate',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dateOfMateController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of mate';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dateOfDeadOrSellController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Dead or Sell',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dateOfDeadOrSellController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of dead or sell';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dateOfWeaningController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Weaning',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dateOfWeaningController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of weaning';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dobController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Birth',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dobController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of birth';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-    ];
-  }
-
-  List<Widget> _buildChickenFormFields() {
-    return [
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _breedController,
-        decoration: const InputDecoration(
-          labelText: 'Chicken Breed',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the chicken breed';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _imageController,
-        decoration: const InputDecoration(
-          labelText: 'Chicken Image',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the chicken image URL';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _sexController,
-        decoration: const InputDecoration(
-          labelText: 'Chicken Sex',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the chicken sex';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _tagsController,
-        decoration: const InputDecoration(
-          labelText: 'Chicken Tags',
-          border: OutlineInputBorder(),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the chicken tags';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _notesController,
-        decoration: const InputDecoration(
-          labelText: 'Chicken Notes',
-          border: OutlineInputBorder(),
-        ),
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _customFieldsController,
-        decoration: const InputDecoration(
-          labelText: 'Chicken Custom Fields',
-          border: OutlineInputBorder(),
-        ),
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dateOfMateController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Mate',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dateOfMateController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of mate';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dateOfDeadOrSellController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Dead or Sell',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dateOfDeadOrSellController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of dead or sell';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dateOfWeaningController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Weaning',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dateOfWeaningController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of weaning';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-      TextFormField(
-        controller: _dobController,
-        readOnly: true,
-        decoration: const InputDecoration(
-          labelText: 'Date of Birth',
-          border: OutlineInputBorder(),
-        ),
-        onTap: () {
-          _showDatePicker(_dobController);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter the date of birth';
-          }
-          return null;
-        },
-      ),
-      const SizedBox(height: 16),
-    ];
-  }
-
-  Future<void> _showDatePicker(TextEditingController controller) async {
-    DateTime? pickedDate = await showRoundedDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-      theme: ThemeData(primarySwatch: Colors.green),
-    );
-    if (pickedDate != null) {
-      controller.text = pickedDate.toIso8601String();
-    }
   }
 }
