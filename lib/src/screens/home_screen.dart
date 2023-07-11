@@ -142,8 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 const SizedBox(height: 16),
-                if (_selectedAnimalKind == 'Sheep') BuildSheepFormFields(),
-                if (_selectedAnimalKind == 'Chicken') BuildChickenFormFields(),
+                if (_selectedAnimalKind == 'Sheep')
+                  const BuildSheepFormFields(),
+                if (_selectedAnimalKind == 'Chicken')
+                  const BuildChickenFormFields(),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   child: const Text('Submit Animal'),
